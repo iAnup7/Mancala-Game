@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+   id 'checkstyle'
+}
+
+repositories {
+    mavenCentral()
+}
+
+checkstyle {
+    toolVersion = '8.41' // specify the Checkstyle version
+    configFile = file("${projectDir}/config/checkstyle/checkstyle.xml") // specify the path to your checkstyle.xml
+    ignoreFailures = true
+    checkstyleTest.enabled = false
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'ui.TextUI' // specify the main class for your project
+    }
+    archiveBaseName = 'Mancala' // specify the name for your jar file
+}
+
+task echo {
+    doFirst {
+        println "To run the program from jar:\njava -jar build/libs/Mancala.jar"
+        println "To run the program from class files:\njava -cp build/classes/java/main ui.TextUI"
+    }
+}
+
+test {
+    useJUnitPlatform()
+    ignoreFailures = true
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
